@@ -1,0 +1,36 @@
+# ======= Android Studio specific ========
+.idea/
+*.iml
+.gradle
+.kotlinc/
+.kotlin/
+local.properties
+
+captures/
+.DS_Store
+
+# ======= Build outputs ========
+/build/
+/app/build/
+/*build/
+
+# ======= External Tools ========
+.cxx/
+.externalNativeBuild/
+
+# ======= Jetpack Compose preview / layout artifacts (ako se pojave) ========
+*.apk
+*.ap_
+
+# ======= OS / Misc ========
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Dodatno iz develop:
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
