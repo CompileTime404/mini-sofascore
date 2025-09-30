@@ -5,6 +5,7 @@ import com.example.minisofascore.data.model.Incident
 import com.example.minisofascore.data.model.Player
 import com.example.minisofascore.data.model.Span
 import com.example.minisofascore.data.model.Standings
+import com.example.minisofascore.data.model.Team3
 import com.example.minisofascore.data.model.Tournament
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -43,8 +44,21 @@ interface SofascoreApiService {
         @Path("id") id: Int,
         @Path("span") span: Span,
         @Path("page") page: Int
-    ) : List<Event>
+    ): List<Event>
 
     @GET("team/{id}/tournaments")
     suspend fun getTeamTournaments(@Path("id") id: Int): List<Tournament>
+
+    @GET("/team/{id}")
+    suspend fun getTeam(@Path("id") id: Int): Team3
+
+    @GET("/team/{id}/events/{span}/{page}")
+    suspend fun getTeamEvents(
+        @Path("id") id: Int,
+        @Path("span") span: Span,
+        @Path("page") page: Int
+    ):  List<Event>
+
+    @GET("/team/{id}/players")
+    suspend fun getTeamPlayers(@Path("id") id: Int): List<Player>
 }

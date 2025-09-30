@@ -14,7 +14,7 @@ import com.example.minisofascore.ui.leaguespage.LeaguesScreenRoot
 import com.example.minisofascore.ui.mainlistpage.MainListScreenRoot
 import com.example.minisofascore.ui.playedetailspage.PlayerDetailsScreenRoot
 import com.example.minisofascore.ui.settingspage.SettingsScreenRoot
-import com.example.minisofascore.ui.teamdetailspage.TeamDetailsPage
+import com.example.minisofascore.ui.teamdetailspage.TeamDetailsPageRoot
 import com.example.minisofascore.ui.tournamentdetailspage.TournamentDetailsScreenRoot
 import kotlinx.serialization.Serializable
 
@@ -30,7 +30,7 @@ sealed interface NavigationGraph {
     data object SettingsPage : NavigationGraph
 
     @Serializable
-    data object TeamDetailsPage : NavigationGraph
+    data class TeamDetailsPage(val teamId: Int) : NavigationGraph
 
     @Serializable
     data class PlayerDetailsPage(val playerId: Int) : NavigationGraph
@@ -60,8 +60,23 @@ fun NavigationRoot(
                 }
             )
         }
-        composable<NavigationGraph.TeamDetailsPage> {
-            TeamDetailsPage()
+        composable<NavigationGraph.TeamDetailsPage> { navBackStackEntry ->
+            val args = navBackStackEntry.toRoute<NavigationGraph.TeamDetailsPage>()
+            TeamDetailsPageRoot(
+                teamId = args.teamId,
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onPlayerClick = {
+                    navController.navigate(NavigationGraph.PlayerDetailsPage(it))
+                },
+                onEventClick = {
+                    navController.navigate(NavigationGraph.EventDetailsPage(it))
+                },
+                onTournamentClick = {
+                    navController.navigate(NavigationGraph.TournamentDetailsPage(it))
+                }
+            )
         }
         composable<NavigationGraph.PlayerDetailsPage> {navBackStackEntry ->
             val args = navBackStackEntry.toRoute<NavigationGraph.PlayerDetailsPage>()
@@ -74,7 +89,7 @@ fun NavigationRoot(
                     navController.navigate(NavigationGraph.TournamentDetailsPage(it))
                 },
                 onTeamClick = {
-                    navController.navigate(NavigationGraph.TeamDetailsPage)
+                    navController.navigate(NavigationGraph.TeamDetailsPage(it))
                 },
                 onEventClick = {
                     navController.navigate(EventDetailsPage(it))
@@ -96,7 +111,7 @@ fun NavigationRoot(
                     navController.popBackStack()
                 },
                 onTeamClick = {
-                    navController.navigate(NavigationGraph.TeamDetailsPage)
+                    navController.navigate(NavigationGraph.TeamDetailsPage(it))
                 },
                 onEventClick = {
                     navController.navigate(EventDetailsPage(it))
@@ -111,7 +126,7 @@ fun NavigationRoot(
                     navController.popBackStack()
                 },
                 onTeamClick = {
-                    navController.navigate(NavigationGraph.TeamDetailsPage)
+                    navController.navigate(NavigationGraph.TeamDetailsPage(it))
                 },
                 onPlayerClick = {
                     navController.navigate(NavigationGraph.PlayerDetailsPage(it))

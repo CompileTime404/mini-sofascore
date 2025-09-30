@@ -6,6 +6,8 @@ import com.example.minisofascore.data.repository.IncidentsRepository
 import com.example.minisofascore.data.repository.IncidentsRepositoryImpl
 import com.example.minisofascore.data.repository.PlayerRepository
 import com.example.minisofascore.data.repository.PlayerRepositoryImpl
+import com.example.minisofascore.data.repository.TeamRepository
+import com.example.minisofascore.data.repository.TeamRepositoryImpl
 import com.example.minisofascore.data.repository.TournamentRepository
 import com.example.minisofascore.data.repository.TournamentRepositoryImpl
 import dagger.Binds
@@ -41,4 +43,10 @@ abstract class RepositoryModule{
     abstract fun bindPlayerRepository(
         playerRepositoryImpl: PlayerRepositoryImpl
     ) : PlayerRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTeamRepository(
+        teamRepositoryImpl: TeamRepositoryImpl
+    ): TeamRepository
 }

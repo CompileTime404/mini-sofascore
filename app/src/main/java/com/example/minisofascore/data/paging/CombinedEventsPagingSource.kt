@@ -21,34 +21,51 @@ class CombinedEventsPagingSource(
 
             val events = when (eventSource) {
                 is EventSource.Tournament -> {
-                    if (page == 0 && !hasLoadedNext){
+                    if (page == 0 && !hasLoadedNext) {
                         val next = api.getTournamentEvents(eventSource.tournamentId, Span.NEXT, 0)
                         hasLoadedNext = true
                         next.sortedWith(
-                            compareByDescending<Event> {it.round}
+                            compareByDescending<Event> { it.round }
                                 .thenByDescending { it.startDate }
                         )
                     } else {
                         api.getTournamentEvents(eventSource.tournamentId, Span.LAST, 0)
                             .sortedWith(
-                            compareByDescending<Event> {it.round}
-                                .thenByDescending { it.startDate }
-                        )
+                                compareByDescending<Event> { it.round }
+                                    .thenByDescending { it.startDate }
+                            )
                     }
                 }
 
                 is EventSource.Player -> {
-                    if(page == 0 && !hasLoadedNext) {
+                    if (page == 0 && !hasLoadedNext) {
                         val next = api.getPlayerEvents(eventSource.playerId, Span.NEXT, 0)
                         hasLoadedNext = true
                         next.sortedWith(
-                            compareByDescending<Event> {it.round}
+                            compareByDescending<Event> { it.round }
                                 .thenByDescending { it.startDate }
                         )
                     } else {
                         api.getPlayerEvents(eventSource.playerId, Span.LAST, 0)
                             .sortedWith(
-                                compareByDescending<Event> {it.round}
+                                compareByDescending<Event> { it.round }
+                                    .thenByDescending { it.startDate }
+                            )
+                    }
+                }
+
+                is EventSource.Team -> {
+                    if (page == 0 && !hasLoadedNext) {
+                        val next = api.getTeamEvents(eventSource.teamId, Span.NEXT, 0)
+                        hasLoadedNext = true
+                        next.sortedWith(
+                            compareByDescending<Event> { it.round }
+                                .thenByDescending { it.startDate }
+                        )
+                    } else {
+                        api.getTeamEvents(eventSource.teamId, Span.LAST, 0)
+                            .sortedWith(
+                                compareByDescending<Event> { it.round }
                                     .thenByDescending { it.startDate }
                             )
                     }

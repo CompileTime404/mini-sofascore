@@ -7,9 +7,9 @@ data class Player(
     val id: Int,
     val name: String,
     val slug: String,
-    val sport: Sport,
-    val team: Team3,
+    val sport: Sport? = null,
+    val team: Team3? = null,
     val country: Country,
     val position: String,
-    val dateOfBirth: String
+    val dateOfBirth: String? = null,
 )

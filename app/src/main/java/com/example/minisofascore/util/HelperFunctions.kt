@@ -33,6 +33,10 @@ fun <T> pollingFlow(interval: Long = 15000, fetch: suspend () -> T): Flow<T> {
     }
 }
 
+fun getManagerImageUrl(managerName: String): String {
+    return "https://academy-backend.sofascore.dev/team/$managerName/image"
+}
+
 fun getTeamLogoUrl(teamId: Int): String {
     return "https://academy-backend.sofascore.dev/team/$teamId/image"
 }

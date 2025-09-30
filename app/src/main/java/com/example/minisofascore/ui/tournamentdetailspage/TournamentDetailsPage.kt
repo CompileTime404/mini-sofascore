@@ -58,6 +58,7 @@ import com.example.minisofascore.data.model.Standings
 import com.example.minisofascore.data.model.Team3
 import com.example.minisofascore.data.model.Tournament
 import com.example.minisofascore.ui.shared.EventRow
+import com.example.minisofascore.ui.shared.TopBar
 import com.example.minisofascore.ui.theme.MiniSofascoreTheme
 import com.example.minisofascore.util.getCountryFlagUrl
 import com.example.minisofascore.util.getTournamentLogoUrl
@@ -112,8 +113,9 @@ private fun TournamentDetailsScreen(
 ) {
     Scaffold(
         topBar = {
-            TournamentTopBar(
+            TopBar(
                 tournament = uiState.tournament,
+                team = null,
                 onBackClick = { onAction(TournamentDetailsUiAction.ClickBackButton) }
             )
         }
@@ -138,86 +140,6 @@ private fun TournamentDetailsScreen(
         }
     }
 }
-
-@Composable
-private fun TournamentTopBar(
-    tournament: Tournament?,
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    if (tournament == null) return
-
-    val colors = MaterialTheme.colorScheme
-
-    Column(
-        modifier = modifier
-            .background(colors.primary)
-            .statusBarsPadding()
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp, vertical = 4.dp)
-    ) {
-        IconButton(onClick = onBackClick) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = colors.onPrimary
-            )
-        }
-
-        Row {
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = getTournamentLogoUrl(tournament.id),
-                    contentDescription = "Tournament logo",
-                    modifier = Modifier.size(48.dp)
-                )
-            }
-
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column(
-                modifier = Modifier.padding(top = 4.dp)
-            ) {
-                Text(
-                    text = tournament.name,
-                    color = colors.onPrimary,
-                    fontWeight = FontWeight.W700,
-                    fontSize = 20.sp,
-                    lineHeight = 28.sp,
-                    letterSpacing = 0.sp
-                )
-                Row {
-                    AsyncImage(
-                        model = getCountryFlagUrl(tournament.country.name),
-                        contentDescription = "Flag",
-                        modifier = Modifier
-                            .size(16.dp)
-                            .clip(shape = CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = tournament.country.name,
-                        color = colors.onPrimary,
-                        fontWeight = FontWeight.W700,
-                        fontSize = 14.sp,
-                        lineHeight = 16.sp,
-                        letterSpacing = 0.sp
-                    )
-                }
-            }
-        }
-    }
-}
-
 
 @Composable
 private fun TournamentTabRow(
@@ -579,7 +501,7 @@ private fun StandingsRow(
 @Composable
 private fun TournamentTopBarPreview() {
     MiniSofascoreTheme {
-        TournamentTopBar(
+        TopBar(
             tournament = Tournament(
                 id = 1,
                 name = "Premier League",
@@ -587,6 +509,7 @@ private fun TournamentTopBarPreview() {
                 country = Country(1, "England"),
                 sport = Sport(1, "football", "Football")
             ),
+            team = null,
             onBackClick = {}
         )
     }
